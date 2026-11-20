@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <defs>
+    <path id="petal" d="M20 2.4Q26 7 20 13Q14 7 20 2.4Z M20 5.8Q23 8.6 20 11.3Q17 8.6 20 5.8Z"/>
+    <path id="scalloped-ring" d="M20 1.4Q25 6 29.3 4Q30.8 10 35.1 11.3Q34 16.8 38.6 20Q34 23.2 35.1 28.7Q30.8 30 29.3 36Q25 34 20 38.6Q15 34 10.7 36Q9.2 30 4.9 28.7Q6 23.2 1.4 20Q6 16.8 4.9 11.3Q9.2 10 10.7 4Q15 6 20 1.4Z"/>
+    <path id="lotus" d="M20 4Q25 7.5 20 13Q15 7.5 20 4Z M20 13Q16 8.5 12 7Q12 13 17 15 M20 13Q24 8.5 28 7Q28 13 23 15"/>
+    <path id="ray" d="M20 2V6.5M20 8.5L22.7 12.5L20 16L17.3 12.5Z"/>
+    <path id="diamond" d="M20 4L25 10L20 16L15 10Z M20 7.2L22.3 10L20 12.8L17.7 10Z"/>
+    <path id="swirl" d="M20 2.5C26 3 30 9 27 13.5Q24 17 20 14Q17 11.2 20.5 9.8Q23 9 23.6 11 M20 5Q25.1 6 25.8 10.2"/>
+  </defs>
+  <view id="ornament-1" viewBox="0 0 40 40"/>
+  <view id="ornament-2" viewBox="44 0 40 40"/>
+  <view id="ornament-3" viewBox="88 0 40 40"/>
+  <view id="ornament-4" viewBox="132 0 40 40"/>
+  <view id="ornament-5" viewBox="176 0 40 40"/>
+  <g fill="none" stroke="#fff" stroke-width=".72" stroke-linecap="round" stroke-dasharray=".02 1.6">
+    <g>
+      <circle cx="20" cy="20" r="18.7"/><circle cx="20" cy="20" r="14.2"/>
+      <circle cx="20" cy="20" r="6.7"/><circle cx="20" cy="20" r="3.2"/>
+      <use href="#petal"/><use href="#petal" transform="rotate(45 20 20)"/>
+      <use href="#petal" transform="rotate(90 20 20)"/><use href="#petal" transform="rotate(135 20 20)"/>
+      <use href="#petal" transform="rotate(180 20 20)"/><use href="#petal" transform="rotate(225 20 20)"/>
+      <use href="#petal" transform="rotate(270 20 20)"/><use href="#petal" transform="rotate(315 20 20)"/>
+    </g>
+    <g transform="translate(44)">
+      <use href="#scalloped-ring"/>
+      <circle cx="20" cy="20" r="15.2"/><circle cx="20" cy="20" r="4.1"/>
+      <use href="#lotus"/><use href="#lotus" transform="rotate(60 20 20)"/>
+      <use href="#lotus" transform="rotate(120 20 20)"/><use href="#lotus" transform="rotate(180 20 20)"/>
+      <use href="#lotus" transform="rotate(240 20 20)"/><use href="#lotus" transform="rotate(300 20 20)"/>
+    </g>
+    <g transform="translate(88)">
+      <circle cx="20" cy="20" r="19.3"/><circle cx="20" cy="20" r="12"/>
+      <circle cx="20" cy="20" r="6.2"/><circle cx="20" cy="20" r="2.5"/>
+      <use href="#ray"/><use href="#ray" transform="rotate(30 20 20)"/>
+      <use href="#ray" transform="rotate(60 20 20)"/><use href="#ray" transform="rotate(90 20 20)"/>
+      <use href="#ray" transform="rotate(120 20 20)"/><use href="#ray" transform="rotate(150 20 20)"/>
+      <use href="#ray" transform="rotate(180 20 20)"/><use href="#ray" transform="rotate(210 20 20)"/>
+      <use href="#ray" transform="rotate(240 20 20)"/><use href="#ray" transform="rotate(270 20 20)"/>
+      <use href="#ray" transform="rotate(300 20 20)"/><use href="#ray" transform="rotate(330 20 20)"/>
+    </g>
+    <g transform="translate(132)">
+      <path d="M20 1.5L33 7 38.5 20 33 33 20 38.5 7 33 1.5 20 7 7Z M20 16L21 19 24 20 21 21 20 24 19 21 16 20 19 19Z"/>
+      <circle cx="20" cy="20" r="14.6"/><circle cx="20" cy="20" r="7.2"/>
+      <use href="#diamond"/><use href="#diamond" transform="rotate(45 20 20)"/>
+      <use href="#diamond" transform="rotate(90 20 20)"/><use href="#diamond" transform="rotate(135 20 20)"/>
+      <use href="#diamond" transform="rotate(180 20 20)"/><use href="#diamond" transform="rotate(225 20 20)"/>
+      <use href="#diamond" transform="rotate(270 20 20)"/><use href="#diamond" transform="rotate(315 20 20)"/>
+    </g>
+    <g transform="translate(176)">
+      <use href="#scalloped-ring" transform="rotate(30 20 20)"/>
+      <circle cx="20" cy="20" r="15.3"/><circle cx="20" cy="20" r="4.7"/><circle cx="20" cy="20" r="2.2"/>
+      <use href="#swirl"/><use href="#swirl" transform="rotate(60 20 20)"/>
+      <use href="#swirl" transform="rotate(120 20 20)"/><use href="#swirl" transform="rotate(180 20 20)"/>
+      <use href="#swirl" transform="rotate(240 20 20)"/><use href="#swirl" transform="rotate(300 20 20)"/>
+    </g>
+  </g>
+</svg>

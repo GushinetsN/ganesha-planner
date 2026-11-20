@@ -1,0 +1,56 @@
+.planner-projects :is(.projects-choice, .projects-task) {
+  min-width: 0;
+  min-height: 40px;
+  padding: 4px 7px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  text-align: start;
+  font-size: .875rem;
+  cursor: pointer;
+}
+
+.planner-projects .projects-choice {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  font-weight: 550;
+}
+.planner-projects .projects-choice svg, .projects-subheading button svg { flex: none; width: 24px; height: 24px; }
+.planner-projects .projects-choice[aria-pressed="true"] { background: var(--control-selected); }
+.planner-projects .projects-choice .projects-current { margin-inline-start: auto; }
+.planner-projects .projects-choice:not([aria-pressed="true"]) .projects-current { display: none; }
+
+.planner-projects :is(.projects-list, .projects-task-list) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.planner-projects :is(.projects-list, .projects-task-list) > li { border-top: 1px solid var(--hairline); }
+.planner-projects :is(.projects-choice, .projects-task):focus-visible { outline-offset: -2px; }
+.planner-projects :is(.projects-choice, .projects-task):is(:hover, :focus-visible) { background: var(--control-wash); }
+.planner-projects .projects-choice[aria-pressed="true"]:is(:hover, :focus-visible) { background: var(--control-selected); }
+
+.planner-projects .projects-message { margin: 3px 0; color: var(--muted); font-size: .85rem; }
+.planner-projects .projects-message:empty { display: none; }
+
+.planner-projects .projects-task {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 43%);
+  align-items: baseline;
+  gap: 2px 6px;
+  width: 100%;
+  line-height: 1.3;
+}
+.planner-projects .projects-task-title { grid-column: 1 / -1; font-weight: 550; }
+.planner-projects :is(.projects-task-date, .projects-task-owner) { color: var(--muted); font-size: .75rem; }
+.planner-projects .projects-task-date { grid-area: 2 / 2; text-align: right; font-variant-numeric: tabular-nums; }
+
+.planner-projects .projects-subheading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+}
+

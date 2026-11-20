@@ -1,0 +1,108 @@
+.people-view .tasks-row.people-name-row {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  min-height: 44px;
+}
+
+.people-view .people-name-row .tasks-row-title { grid-column: 2; }
+.people-view .people-profile {
+  position: relative;
+  isolation: isolate;
+  min-block-size: clamp(100px, 24svh, 148px);
+}
+.people-view .people-portrait {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.people-view .people-portrait img {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: -3%;
+  width: min(65%, 172px);
+  translate: 0 -44%;
+  opacity: .56;
+  mask-image: linear-gradient(90deg, transparent, #000 54%);
+}
+
+.people-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--avatar-size, 32px);
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #e6eadb;
+  color: #39554b;
+  font: 650 .76rem/1 var(--sans);
+}
+
+.people-avatar img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.people-avatar img[src$="-krishna-soft.png"] { width: 89%; height: 89%; }
+
+.people-edit-name {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 8px;
+}
+
+.people-edit-name .people-avatar-trigger {
+  --avatar-size: 25px;
+  min-width: 36px;
+  min-height: 36px;
+  border: 1px solid var(--hairline);
+  background: #fffaf080;
+}
+
+dialog.task-card.people-avatar-dialog {
+  width: min(540px, 100% - 24px);
+  max-height: calc(100% - 24px);
+}
+
+.people-avatar-gallery {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0 12px;
+}
+
+.people-avatar-option {
+  --avatar-size: clamp(46px, 10vw, 68px);
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 5px;
+  min-width: 0;
+  padding: 6px 2px;
+  border: 1px solid var(--hairline);
+  border-radius: 9px;
+  background: #fffaf0ab;
+  color: var(--ink);
+  font: 550 .78rem/1.2 var(--sans);
+  text-align: center;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+}
+
+.people-avatar-option .people-avatar { background: #e9e8da; }
+.people-avatar-option:hover { background: var(--control-wash); }
+.people-avatar-option[aria-pressed="true"],
+.people-avatar-initials[aria-pressed="true"] {
+  border-color: #6a7d57;
+  background: var(--control-selected);
+  box-shadow: inset 0 0 0 1px #6a7d57;
+}
+
+@media (max-width: 690px) {
+  .people-view .people-profile { min-block-size: min(120px, 20svh); }
+}
+
+@media (max-width: 430px) {
+  .people-avatar-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

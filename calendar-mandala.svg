@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 320" preserveAspectRatio="none">
+  <defs>
+    <g id="petal">
+      <path d="M0-378C44-337 48-290 26-249C12-268 4-291 0-320C-4-291-12-268-26-249C-48-290-44-337 0-378Z"/>
+      <path d="M0-365C25-337 32-311 24-286M0-365C-25-337-32-311-24-286M0-365V-327"/>
+      <path d="M0-255C39-222 44-179 0-131C-44-179-39-222 0-255Z M0-239C23-216 27-185 0-150C-27-185-23-216 0-239Z"/>
+      <path d="M0-199C11-189 11-176 0-160C-11-176-11-189 0-199Z M0-114C20-90 20-68 0-43C-20-68-20-90 0-114Z"/>
+      <path d="M0-104C10-89 10-73 0-56C-10-73-10-89 0-104Z"/>
+    </g>
+    <g id="quarter">
+      <use href="#petal"/>
+      <use href="#petal" transform="rotate(22.5)"/>
+      <use href="#petal" transform="rotate(45)"/>
+      <use href="#petal" transform="rotate(67.5)"/>
+    </g>
+  </defs>
+  <g transform="translate(380 160)" fill="none" stroke="#fff" stroke-width="1.22" stroke-linecap="round" stroke-dasharray=".02 4.2">
+    <circle r="389" stroke-opacity=".85"/>
+    <circle r="369" stroke-dasharray=".02 5" stroke-opacity=".83"/>
+    <circle r="320" stroke-opacity=".65"/>
+    <circle r="270"/>
+    <circle r="264"/>
+    <circle r="223" stroke-opacity=".75"/>
+    <circle r="129"/>
+    <circle r="121"/>
+    <circle r="91" stroke-opacity=".7"/>
+    <circle r="38"/>
+    <circle r="32" stroke-dasharray=".02 3"/>
+    <path d="M0-26Q8-13 20-19Q14-7 26 0Q14 7 20 19Q8 13 0 26Q-8 13-20 19Q-14 7-26 0Q-14-7-20-19Q-8-13 0-26Z"/>
+    <circle r="9"/>
+    <use href="#quarter"/>
+    <use href="#quarter" transform="rotate(90)"/>
+    <use href="#quarter" transform="rotate(180)"/>
+    <use href="#quarter" transform="rotate(270)"/>
+  </g>
+</svg>

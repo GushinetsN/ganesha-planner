@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Мандала Ганеши — прототип ежедневника</title>
+  <link rel="stylesheet" href="style.css?v=shared-card-action">
+  <link rel="stylesheet" href="section-people.css?v=right-entry">
+  <link rel="stylesheet" href="section-projects.css?v=heading-scale">
+  <link rel="stylesheet" href="section-tasks.css?v=stable-editor-2">
+  <script src="ganesha-idle.js?v=head-lift" defer></script>
+  <script src="calendar-weather.js?v=vertical-weather" defer></script>
+  <script src="planner-entries.js?v=entry-selection" defer></script>
+  <script src="calendar.js?v=right-entry" defer></script>
+  <script src="task-card.js?v=unified-cards" defer></script>
+  <script src="section-people.js?v=entry-selection" defer></script>
+  <script src="section-projects.js?v=entry-selection" defer></script>
+  <script src="section-tasks.js?v=entry-selection" defer></script>
+  <script src="mandala-art.js?v=clear-icons" defer></script>
+  <script src="mandala.js?v=entry-selection" defer></script>
+</head>
+<body>
+  <div class="watercolor" aria-hidden="true"></div>
+  <main class="planner" data-view="section">
+    <div class="spread">
+      <article class="sheet" id="section" hidden>
+        <span class="calendar-weather" aria-hidden="true"></span>
+        <header class="sheet-heading">
+          <h2 id="section-title" tabindex="-1">
+            <span id="section-title-label"></span>
+            <button type="button" id="calendar-jump" aria-description="Выбрать месяц и год" aria-haspopup="dialog" title="Выбрать месяц и год" hidden>
+              <span></span>
+              <svg aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=select-arrow#dropdown"/></svg>
+            </button>
+          </h2>
+          <div class="calendar-controls" id="calendar-controls" role="group" aria-label="Навигация по датам" hidden>
+            <button type="button" data-month="-1" aria-label="Предыдущий месяц">
+              <svg aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#direction"/></svg>
+            </button>
+            <button type="button" data-month="1" aria-label="Следующий месяц">
+              <svg aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#direction"/></svg>
+            </button>
+            <button type="button" class="calendar-today-button" id="calendar-return">
+              <svg aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#lotus"/></svg>
+              Сегодня
+            </button>
+          </div>
+        </header>
+        <div id="section-body"></div>
+      </article>
+    </div>
+    <aside class="calendar-note calendar-message" id="calendar-message" aria-labelledby="message-title" hidden>
+      <header class="calendar-note-heading">
+        <h2 id="message-title">Послание на сегодня</h2>
+      </header>
+      <p>Сегодня есть место для маленьких радостей.</p>
+    </aside>
+    <aside class="calendar-note calendar-preview" id="calendar-preview" aria-labelledby="preview-title" aria-live="polite" hidden>
+      <header class="calendar-note-heading">
+        <h2 id="preview-title"></h2>
+        <span id="preview-weekday"></span>
+      </header>
+      <ul class="agenda" id="preview-agenda"></ul>
+      <p class="agenda-empty" id="preview-empty" hidden>На этот день дел нет</p>
+    </aside>
+    <div class="ganesha-dock">
+      <canvas class="ganesha-backdrop" width="640" height="640" aria-hidden="true"></canvas>
+      <button type="button" class="ganesha" id="ganesha" aria-label="Нажать на Ганешу и открыть меню">
+        <img src="ganesha-writing.png" alt="" width="1159" height="1358" draggable="false">
+        <canvas class="ganesha-portrait" width="640" height="750" aria-hidden="true" hidden></canvas>
+      </button>
+    </div>
+    <dialog class="task-card" id="task-card" aria-labelledby="task-title">
+      <header class="task-card-heading">
+        <h2 id="task-title"></h2>
+        <div class="planner-card-actions" role="group" aria-label="Действия с карточкой задачи">
+          <button type="button" class="planner-icon-action records-card-action task-edit" aria-label="Редактировать задачу" aria-haspopup="dialog">
+            <svg aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=card-actions#record-edit"/></svg>
+          </button>
+          <button type="button" class="task-icon task-close" aria-label="Закрыть карточку" autofocus>
+            <svg aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#close"/></svg>
+          </button>
+        </div>
+        <p class="task-timing"><time></time><span class="task-undated" hidden>Дата не назначена</span></p>
+      </header>
+      <dl class="task-fields">
+        <div>
+          <dt><span class="task-icon" role="img" tabindex="0" aria-label="Ответственный">
+            <svg aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#person"/></svg>
+          </span></dt>
+          <dd id="task-owner"></dd>
+        </div>
+        <div>
+          <dt><span class="task-icon" role="img" tabindex="0" aria-label="Проект">
+            <svg aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#pavilion"/></svg>
+          </span></dt>
+          <dd id="task-project"></dd>
+        </div>
+        <div class="task-description"><dt>Описание</dt><dd id="task-description"></dd></div>
+        <div class="task-labels"><dt>Метки</dt><dd><ul class="planner-tags" id="task-tags"></ul></dd></div>
+      </dl>
+    </dialog>
+    <dialog class="task-card entry-card" id="entry-card" aria-labelledby="entry-title">
+      <header class="task-card-heading">
+        <h2 id="entry-title"></h2>
+        <button type="button" class="task-icon task-close" aria-label="Закрыть форму" data-entry-cancel>
+          <svg aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#close"/></svg>
+        </button>
+      </header>
+    </dialog>
+    <dialog class="task-card entry-card" id="draft-discard" aria-labelledby="draft-discard-title" aria-describedby="draft-discard-description">
+      <h2 id="draft-discard-title">Несохранённые изменения</h2>
+      <form class="entry-form" method="dialog">
+        <p class="entry-note" id="draft-discard-description">Если выйти из формы, изменения пропадут.</p>
+        <div class="entry-actions">
+          <button class="planner-action planner-action--danger" value="discard">Выйти без сохранения</button>
+          <button class="planner-action planner-action--primary" value="keep" autofocus>Продолжить редактирование</button>
+        </div>
+      </form>
+    </dialog>
+    <dialog class="task-card entry-card" id="calendar-jump-dialog" aria-labelledby="calendar-jump-title">
+      <h2 id="calendar-jump-title">Выбрать месяц и год</h2>
+      <form class="entry-form">
+        <div class="entry-fields">
+          <label>Месяц <select name="month" autofocus></select></label>
+          <label>Год <input name="year" type="number" inputmode="numeric" min="1" max="9999" step="1" required></label>
+        </div>
+        <div class="entry-actions">
+          <button class="planner-action" type="button" data-calendar-cancel>Отмена</button>
+          <button class="planner-action planner-action--primary" type="submit">Показать</button>
+        </div>
+      </form>
+    </dialog>
+    <p class="planner-status" id="planner-status" role="status" aria-atomic="true"></p>
+    <template id="entry-form-template">
+      <form class="entry-form">
+        <label>
+          <span data-entry-name-label>Название</span>
+          <input name="title" required maxlength="120">
+        </label>
+        <fieldset class="entry-fields" data-entry-task-fields aria-label="Параметры задачи" hidden disabled>
+          <label>Дата <input name="date" type="date"></label>
+          <label>Время <input name="time" type="time"></label>
+          <label>Проект <select name="project"><option value="">Без проекта</option></select></label>
+          <label>Ответственный <select name="owner"><option value="">Не назначен</option></select></label>
+        </fieldset>
+        <fieldset class="entry-fields" data-entry-person-fields aria-label="Параметры человека" hidden disabled>
+          <label class="entry-wide">Роль <input name="role" maxlength="120"></label>
+        </fieldset>
+        <label>Описание <textarea name="description" rows="3" maxlength="1200"></textarea></label>
+        <fieldset class="entry-fields" data-entry-tags hidden disabled>
+          <label class="entry-wide">Метки через запятую <input name="tags" maxlength="150"></label>
+        </fieldset>
+        <p class="entry-error" role="alert" hidden></p>
+        <div class="entry-actions">
+          <button class="planner-action" type="button" data-entry-cancel>Отмена</button>
+          <button class="planner-action planner-action--primary" type="submit">Создать</button>
+        </div>
+      </form>
+    </template>
+    <template id="entry-removal-template">
+      <form class="entry-form">
+        <p class="entry-note"></p>
+        <p class="entry-error" role="alert" hidden></p>
+        <div class="entry-actions">
+          <button class="planner-action" type="button" data-entry-cancel>Отмена</button>
+          <button class="planner-action planner-action--danger" type="submit">Удалить</button>
+        </div>
+      </form>
+    </template>
+    <div class="experience" role="dialog" aria-modal="true" aria-label="Мандала разделов" inert>
+      <div class="stage" id="stage" role="group" aria-label="Мандала разделов" tabindex="-1">
+        <span class="mandala-flash" aria-hidden="true"></span>
+        <div class="mandala" id="mandala">
+          <canvas class="mandala-rim" width="1024" height="1024" aria-hidden="true"></canvas>
+          <canvas class="mandala-inlay" width="1024" height="1024" aria-hidden="true"></canvas>
+          <canvas class="mandala-heart" width="1024" height="1024" aria-hidden="true"></canvas>
+          <button type="button" class="mandala-center" aria-label="Вернуть Ганешу"></button>
+          <div class="mandala-slot" data-angle="0">
+            <button type="button" class="mandala-section" data-section="calendar" aria-label="Календарь">
+              <svg class="mandala-icon" aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#calendar"/></svg>
+            </button>
+          </div>
+          <div class="mandala-slot" data-angle="90">
+            <button type="button" class="mandala-section" data-section="people" aria-label="Люди">
+              <svg class="mandala-icon" aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#people"/></svg>
+            </button>
+            <button type="button" class="mandala-section" data-create="person" aria-label="Создать" aria-description="Новый человек">
+              <svg class="mandala-icon" aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#create"/></svg>
+            </button>
+          </div>
+          <div class="mandala-slot" data-angle="180">
+            <button type="button" class="mandala-section" data-section="projects" aria-label="Проекты">
+              <svg class="mandala-icon" aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#pavilion"/></svg>
+            </button>
+            <button type="button" class="mandala-section" data-create="project" aria-label="Создать" aria-description="Новый проект">
+              <svg class="mandala-icon" aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#create"/></svg>
+            </button>
+          </div>
+          <div class="mandala-slot" data-angle="270">
+            <button type="button" class="mandala-section" data-section="tasks" aria-label="Задачи">
+              <svg class="mandala-icon" aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#tasks"/></svg>
+            </button>
+            <button type="button" class="mandala-section" data-create="task" aria-label="Создать" aria-description="Новая задача">
+              <svg class="mandala-icon" aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#create"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <p class="sr-only" id="current-section" aria-live="polite"></p>
+    </div>
+  </main>
+
+  <template id="agenda-arrow">
+    <svg class="agenda-arrow" aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#direction"/></svg>
+  </template>
+  <template id="calendar">
+    <table class="calendar-grid" role="grid" aria-labelledby="section-title">
+      <thead><tr>
+        <th scope="col">Пн</th><th scope="col">Вт</th><th scope="col">Ср</th><th scope="col">Чт</th>
+        <th scope="col">Пт</th><th scope="col">Сб</th><th scope="col">Вс</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </template>
+</body>
+</html>
+
