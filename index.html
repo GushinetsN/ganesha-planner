@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Мандала Ганеши — прототип ежедневника</title>
-  <link rel="stylesheet" href="style.css?v=shared-card-action">
+  <link rel="stylesheet" href="style.css?v=day-card-space">
+  <link rel="stylesheet" href="calendar-deck.css?v=wide-day-card">
   <link rel="stylesheet" href="section-people.css?v=right-entry">
   <link rel="stylesheet" href="section-projects.css?v=heading-scale">
   <link rel="stylesheet" href="section-tasks.css?v=stable-editor-2">
@@ -12,12 +13,13 @@
   <script src="calendar-weather.js?v=vertical-weather" defer></script>
   <script src="planner-entries.js?v=entry-selection" defer></script>
   <script src="calendar.js?v=right-entry" defer></script>
+  <script src="calendar-deck.js?v=story-review" defer></script>
   <script src="task-card.js?v=unified-cards" defer></script>
   <script src="section-people.js?v=entry-selection" defer></script>
   <script src="section-projects.js?v=entry-selection" defer></script>
   <script src="section-tasks.js?v=entry-selection" defer></script>
   <script src="mandala-art.js?v=clear-icons" defer></script>
-  <script src="mandala.js?v=entry-selection" defer></script>
+  <script src="mandala.js?v=deck-dialog" defer></script>
 </head>
 <body>
   <div class="watercolor" aria-hidden="true"></div>
@@ -49,11 +51,23 @@
         <div id="section-body"></div>
       </article>
     </div>
-    <aside class="calendar-note calendar-message" id="calendar-message" aria-labelledby="message-title" hidden>
-      <header class="calendar-note-heading">
-        <h2 id="message-title">Послание на сегодня</h2>
-      </header>
-      <p>Сегодня есть место для маленьких радостей.</p>
+    <aside class="calendar-note calendar-message" id="calendar-message" aria-label="Послание дня" hidden>
+      <div class="calendar-deck" role="group" aria-label="Колода «Сто образов дня»" aria-describedby="deck-draw-hint">
+        <button type="button" aria-label="Выбрать левую карту" aria-haspopup="dialog">
+          <span class="deck-back" aria-hidden="true"></span>
+        </button>
+        <button type="button" aria-label="Выбрать среднюю карту" aria-haspopup="dialog">
+          <span class="deck-back" aria-hidden="true"></span>
+        </button>
+        <button type="button" aria-label="Выбрать правую карту" aria-haspopup="dialog">
+          <span class="deck-back" aria-hidden="true"></span>
+        </button>
+      </div>
+      <span class="deck-draw-hint" id="deck-draw-hint" role="tooltip">Прежде чем прочитать описание карты - посмотри на нее, почувствуй ответ на свой вопрос внутри себя</span>
+      <button type="button" class="deck-daily-card" aria-label="Открыть карту дня" aria-haspopup="dialog" hidden>
+        <img alt="">
+      </button>
+      <p id="deck-status" role="status" hidden></p>
     </aside>
     <aside class="calendar-note calendar-preview" id="calendar-preview" aria-labelledby="preview-title" aria-live="polite" hidden>
       <header class="calendar-note-heading">
@@ -70,6 +84,28 @@
         <canvas class="ganesha-portrait" width="640" height="750" aria-hidden="true" hidden></canvas>
       </button>
     </div>
+    <dialog class="deck-dialog" id="deck-dialog" aria-label="Метафорическая карта" closedby="any">
+      <p id="deck-view-status" role="status"></p>
+      <form class="deck-close" method="dialog">
+        <button type="submit" class="planner-icon-action" aria-label="Закрыть карту">
+          <svg aria-hidden="true" viewBox="0 0 40 40"><use href="planner-icons.svg?v=clear-icons#close"/></svg>
+        </button>
+      </form>
+      <button type="button" class="deck-viewer" id="deck-viewer" aria-expanded="false"
+        aria-controls="deck-description" autofocus>
+        <span class="deck-turn">
+          <span class="deck-back" aria-hidden="true"></span>
+          <span class="deck-picture" aria-hidden="true"></span>
+        </span>
+        <span class="deck-description" id="deck-description" hidden>
+          <span class="deck-description-copy">
+            <span id="deck-card-title"></span>
+            <span id="deck-card-story"></span>
+          </span>
+        </span>
+        <span class="deck-tooltip" aria-hidden="true">Нажмите, чтобы прочитать описание</span>
+      </button>
+    </dialog>
     <dialog class="task-card" id="task-card" aria-labelledby="task-title">
       <header class="task-card-heading">
         <h2 id="task-title"></h2>

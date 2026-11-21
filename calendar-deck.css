@@ -1,0 +1,304 @@
+.calendar-message {
+  --deck-slot-height: 78px;
+  position: relative;
+  background: none;
+  pointer-events: none;
+}
+.calendar-message button { pointer-events: auto; }
+.calendar-message:has(.calendar-deck:not([hidden])) { overflow: visible; }
+
+.calendar-deck {
+  display: flex;
+  inline-size: max-content;
+  max-inline-size: 100%;
+  margin-inline: auto;
+  padding: 9px 3px 13px;
+}
+
+.calendar-deck > button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  inline-size: calc(var(--deck-slot-height) * 2 / 3);
+  block-size: var(--deck-slot-height);
+  padding: 2px;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  cursor: pointer;
+}
+.calendar-deck > button + button { margin-inline-start: calc(var(--deck-slot-height) * -.25); }
+
+.deck-back {
+  display: block;
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 1px solid #a48961;
+  border-radius: inherit;
+  background: url("calendar-medallion.svg") center / 55% auto no-repeat,
+    var(--grain),
+    radial-gradient(ellipse at 30% 24%, #faf4df, #e6ebd4 59%, #d2ddc4 100%);
+  box-shadow: 0 2px 4px #6657392a;
+}
+
+.deck-back::after {
+  content: "";
+  position: absolute;
+  inset: 9%;
+  border: 1px solid #ae925a73;
+  border-radius: inherit;
+}
+.deck-back::before {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  inline-size: 14%;
+  aspect-ratio: 1;
+  border: 1px solid #a88349;
+  border-radius: 22%;
+  background: radial-gradient(circle, #a88349 0 18%, transparent 28%);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.calendar-deck button > .deck-back {
+  pointer-events: none;
+  rotate: var(--card-tilt);
+  transform: translateY(var(--card-offset));
+  transition: transform 160ms ease-out;
+}
+.calendar-deck button:first-child { --card-tilt: -15deg; --card-offset: 4px; }
+.calendar-deck button:nth-child(2) { --card-tilt: 10deg; --card-offset: -6px; }
+.calendar-deck button:last-child { --card-tilt: -5deg; --card-offset: 9px; }
+.calendar-deck button:is(:hover, :focus-visible) > .deck-back { transform: translateY(calc(var(--card-offset) - 5px)); }
+.calendar-deck button:focus-visible { z-index: 1; outline-offset: 0; }
+
+.deck-draw-hint {
+  position: absolute;
+  z-index: 1;
+  inset: auto auto calc(100% + 4px) 50%;
+  translate: -50% 0;
+  inline-size: min(290px, 100vw - 32px);
+  padding: 10px 13px;
+  border-radius: 8px;
+  background: #294941;
+  color: #fff8e6;
+  box-shadow: 0 2px 7px #3f382955;
+  font-size: .85rem;
+  line-height: 1.4;
+  text-align: center;
+  visibility: hidden;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .calendar-deck:has(button:hover) + .deck-draw-hint {
+    visibility: visible;
+    transition: visibility 0s 350ms;
+  }
+}
+.calendar-deck:has(button:focus-visible) + .deck-draw-hint {
+  visibility: visible;
+  transition: none;
+}
+
+.deck-daily-card {
+  display: block;
+  inline-size: calc(var(--deck-slot-height) * .88);
+  aspect-ratio: 2 / 3;
+  margin-inline: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  rotate: -10deg;
+  background: none;
+  box-shadow: 0 2px 6px #66573938;
+  cursor: pointer;
+}
+.deck-daily-card img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: inherit; }
+
+.deck-dialog {
+  --deck-card-width: min(384px, 100vw - 24px, (100svh - 24px) * 2 / 3);
+  inline-size: var(--deck-card-width);
+  max-inline-size: none;
+  max-block-size: none;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--ink);
+}
+.deck-dialog::backdrop { background: #283b37a3; }
+.deck-close {
+  position: absolute;
+  z-index: 2;
+  inset: 8px 8px auto auto;
+}
+.deck-close svg { width: 32px; height: 32px; }
+#deck-view-status {
+  position: absolute;
+  z-index: 1;
+  inset: auto 12px 12px;
+  margin: 0;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: #fff8e6;
+  color: var(--control-ink);
+  font-size: .81rem;
+  line-height: 1.28;
+  text-align: center;
+  pointer-events: none;
+}
+#deck-view-status:empty,
+.deck-dialog:has(.deck-viewer[aria-expanded="true"]) #deck-view-status { opacity: 0; }
+.deck-viewer {
+  position: relative;
+  display: block;
+  inline-size: var(--deck-card-width);
+  aspect-ratio: 2 / 3;
+  padding: 0;
+  border: 0;
+  border-radius: 11px;
+  overflow: clip;
+  background: transparent;
+  cursor: pointer;
+  perspective: 1600px;
+}
+.deck-turn {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform: rotateY(-180deg);
+  transform-style: preserve-3d;
+}
+.deck-viewer[data-revealed="true"] > .deck-turn { transform: rotateY(0); }
+.deck-viewer[data-revealed="true"][data-flip="true"] > .deck-turn {
+  animation: deck-flip 570ms cubic-bezier(.24, .68, .21, 1) both;
+}
+@keyframes deck-flip {
+  from { transform: rotateY(-180deg); }
+  to { transform: rotateY(0); }
+}
+.deck-turn > :is(.deck-back, .deck-picture) {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  backface-visibility: hidden;
+}
+.deck-turn > .deck-back { transform: rotateY(180deg); }
+.deck-picture {
+  overflow: hidden;
+  background: #f7ebcd;
+  box-shadow: 0 3px 12px #69513755;
+}
+.deck-picture img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.deck-tooltip {
+  position: absolute;
+  inset: auto 10px 14px;
+  width: max-content;
+  max-width: calc(100% - 20px);
+  margin-inline: auto;
+  padding: 5px 10px;
+  border-radius: 7px;
+  background: #294941;
+  color: #fff8e6;
+  box-shadow: 0 2px 7px #3f382955;
+  font-size: .8rem;
+  line-height: 1.3;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .deck-viewer[data-revealed="true"][aria-expanded="false"]:hover .deck-tooltip {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s 450ms, opacity 150ms ease 450ms;
+  }
+}
+.deck-viewer[data-revealed="true"][aria-expanded="false"]:focus-visible .deck-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transition: none;
+}
+.deck-description {
+  --story-feather: clamp(12px, var(--deck-card-width) * .09, 30px);
+  position: absolute;
+  inset: auto 3px 4px;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  max-block-size: 68%;
+  text-align: center;
+  font-size: clamp(.94rem, 3.2vw, 1.06rem);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  animation: deck-text-in 180ms ease-out both;
+}
+.deck-description::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: #fff8e6cc;
+  mask-image:
+    linear-gradient(to right, transparent, #000 var(--story-feather), #000 calc(100% - var(--story-feather)), transparent),
+    linear-gradient(to bottom, transparent, #000 var(--story-feather), #000 calc(100% - var(--story-feather)), transparent);
+  mask-composite: intersect;
+  pointer-events: none;
+}
+.deck-description-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: calc(var(--story-feather) + 5px);
+}
+#deck-card-title {
+  font: 700 clamp(1.2rem, 4vw, 1.8rem)/1.1 var(--serif);
+  text-wrap: balance;
+}
+@keyframes deck-text-in { from { opacity: 0; } }
+
+@media (width > 640px) {
+  .calendar-message {
+    --deck-slot-height: clamp(88px, min(20svh, 17vw), 146px);
+    --deck-lift: clamp(22px, 5.5svh, 44px);
+    width: min(360px, 50% - var(--paper-inset) - var(--portrait-width) * .34);
+    max-height: calc(var(--dock-height) + var(--deck-lift) - 9px);
+    translate: 0 calc(0px - var(--deck-lift));
+    padding-block: clamp(13px, 2.3svh, 20px);
+  }
+  .calendar-message:has(.deck-daily-card:not([hidden])) {
+    --deck-lift: clamp(16px, 4svh, 34px);
+    padding-block: clamp(9px, 1.55svh, 13px);
+  }
+  .planner[data-view="section"]:has(.sheet[data-section="calendar"]) .ganesha-dock {
+    z-index: 2;
+    pointer-events: none;
+  }
+  .planner[data-view="section"]:has(.sheet[data-section="calendar"]) .ganesha { pointer-events: auto; }
+}
+
+@media (width <= 640px) {
+  .deck-draw-hint { inset-inline-start: 0; translate: none; }
+  .calendar-message:has(.deck-daily-card:not([hidden])) { translate: 0 -15px; }
+}
+
+@media (width >= 1000px) and (height >= 500px) {
+  .calendar-message:has(.deck-daily-card:not([hidden])) {
+    --deck-lift: clamp(25px, 5svh, 42px);
+    max-height: none;
+    overflow: visible;
+  }
+  .deck-daily-card { inline-size: min(200px, 20vw, 23svh); }
+  .deck-dialog {
+    --deck-card-width: min(560px, 100vw - 24px, (100svh - 24px) * 2 / 3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-deck button:is(:hover, :focus-visible) > .deck-back { transform: translateY(var(--card-offset)); }
+  .deck-viewer[data-revealed="true"][data-flip="true"] > .deck-turn, .deck-description { animation: none; }
+}

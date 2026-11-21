@@ -1013,7 +1013,7 @@ dialog.entry-card::backdrop { background: #51482b28; }
 @media (max-width: 640px) {
   .planner { --calendar-width: 100%; }
   .planner:has(.sheet[data-section="calendar"]) {
-    --agenda-space: clamp(108px, 19svh, 145px);
+    --agenda-space: clamp(166px, 21svh, 180px);
     grid-template-rows: minmax(0, 1fr) var(--agenda-space) var(--dock-height);
   }
   .planner:has(.sheet[data-section="calendar"]) .ganesha-dock { grid-row: 3; }

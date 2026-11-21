@@ -327,7 +327,7 @@
   });
 
   planner.addEventListener('keydown', event => {
-    if (card.isOpen() || creation.isOpen() || calendar.isOpen()) return;
+    if (event.target.closest('dialog[open]') || card.isOpen() || creation.isOpen() || calendar.isOpen()) return;
     const view = planner.dataset.view;
     if (event.key === 'Escape' && view !== 'home') {
       event.preventDefault();
